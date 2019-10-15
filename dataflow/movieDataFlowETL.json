@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ADLSGen2Dataset",
+						"referenceName": "MoviesS3",
 						"type": "DatasetReference"
 					},
 					"name": "MoviesADLS"
@@ -15,10 +15,10 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "Select1"
+					"name": "selectAndRename"
 				}
 			],
-			"script": "\n\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviesADLS\nMoviesADLS select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1"
+			"script": "\n\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviesADLS\nMoviesADLS select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> selectAndRename"
 		}
 	}
 }
