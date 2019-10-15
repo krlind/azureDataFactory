@@ -46,8 +46,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 1
+									"name": "movie",
+									"type": "String"
 								}
 							},
 							{
@@ -56,8 +56,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 2
+									"name": "title",
+									"type": "String"
 								}
 							},
 							{
@@ -66,8 +66,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 3
+									"name": "genres",
+									"type": "String"
 								}
 							},
 							{
@@ -76,8 +76,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 4
+									"name": "year",
+									"type": "String"
 								}
 							},
 							{
@@ -86,8 +86,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 5
+									"name": "Rating",
+									"type": "String"
 								}
 							},
 							{
@@ -96,8 +96,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 6
+									"name": "Rotton Tomato",
+									"type": "String"
 								}
 							}
 						]
