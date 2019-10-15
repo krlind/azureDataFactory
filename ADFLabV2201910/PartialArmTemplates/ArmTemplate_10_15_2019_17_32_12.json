@@ -6,38 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "ADFLabV2201910"
-		},
-		"AzureDataLakeStorage1_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
-		},
-		"AzureDataLakeStorageGen2_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorageGen2'"
-		},
-		"AzureSqlDW1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDW1'"
-		},
-		"AzureSqlDatabase1_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://adlsg2storppq2q44l4ewls.dfs.core.windows.net"
-		},
-		"AzureDataLakeStorageGen2_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://adlsg2storppq2q44l4ewls.dfs.core.windows.net"
-		},
-		"MoviesGitHub_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/djpmsft/adf-ready-demo/master/moviesDB.csv"
-		},
-		"TumblingWindowTrigger_properties_pipeline_parameters_filename": {
-			"type": "string",
-			"defaultValue": "copyfromsql_@{formatDateTime(trigger().outputs.windowStartTime, 'yyyy-MM-dd')}"
 		}
 	},
 	"variables": {
@@ -85,8 +53,7 @@
 						"inputs": [
 							{
 								"referenceName": "AzureSQLDataset",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
@@ -116,8 +83,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"url": "https://api.chucknorris.io/jokes/random",
-							"method": "GET",
-							"headers": {}
+							"method": "GET"
 						}
 					}
 				],
@@ -129,7 +95,6 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AzureSQLDataset')]",
 				"[concat(variables('factoryId'), '/datasets/ADLSGen2Dataset')]"
 			]
 		},
@@ -243,15 +208,13 @@
 						"inputs": [
 							{
 								"referenceName": "GitGetCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "movieS3",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -277,12 +240,7 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "movieDataFlowETL",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"MoviesADLS": {},
-									"SQLSink": {}
-								}
+								"type": "DataFlowReference"
 							},
 							"staging": {
 								"linkedService": {
@@ -299,8 +257,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/GitGetCsv')]",
 				"[concat(variables('factoryId'), '/datasets/movieS3')]",
-				"[concat(variables('factoryId'), '/dataflows/movieDataFlowETL')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageGen2')]"
+				"[concat(variables('factoryId'), '/dataflows/movieDataFlowETL')]"
 			]
 		},
 		{
@@ -335,30 +292,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageGen2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSQLDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "SalesLT",
-					"table": "Customer"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDWTable1')]",
@@ -377,9 +311,7 @@
 					"table": "MoviesAnalytics"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDW1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDWTable2')]",
@@ -398,9 +330,7 @@
 					"table": "MoviesAnalytics"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDW1')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/GitGetCsv')]",
@@ -449,9 +379,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/MoviesGitHub')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/chuckNorrisApijson')]",
@@ -469,12 +397,9 @@
 						"type": "AzureBlobFSLocation",
 						"fileSystem": "chuckJoke"
 					}
-				},
-				"schema": {}
+				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageGen2')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/movieS3')]",
@@ -526,84 +451,6 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageGen2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorageGen2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Kristian create this",
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('AzureDataLakeStorageGen2_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStorageGen2_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDW1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDW",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDW1_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MoviesGitHub')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('MoviesGitHub_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
 			"dependsOn": []
 		},
 		{
@@ -619,7 +466,7 @@
 						"type": "PipelineReference"
 					},
 					"parameters": {
-						"filename": "[parameters('TumblingWindowTrigger_properties_pipeline_parameters_filename')]"
+						"filename": "copyfromsql_@{formatDateTime(trigger().outputs.windowStartTime, 'yyyy-MM-dd')}"
 					}
 				},
 				"type": "TumblingWindowTrigger",
@@ -653,8 +500,7 @@
 								"referenceName": "movieS3",
 								"type": "DatasetReference"
 							},
-							"name": "MoviesADLS",
-							"typeProperties": {}
+							"name": "MoviesADLS"
 						}
 					],
 					"sinks": [

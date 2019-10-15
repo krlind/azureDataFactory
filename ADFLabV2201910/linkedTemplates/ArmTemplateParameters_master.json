@@ -5,11 +5,29 @@
 		"factoryName": {
 			"value": "ADFLabV2201910"
 		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorageGen2_accountKey": {
+			"value": ""
+		},
+		"AzureSqlDW1_connectionString": {
+			"value": ""
+		},
 		"AzureSqlDatabase1_connectionString": {
 			"value": ""
 		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://adlsg2storppq2q44l4ewls.dfs.core.windows.net"
+		},
 		"AzureDataLakeStorageGen2_properties_typeProperties_url": {
 			"value": "https://adlsg2storppq2q44l4ewls.dfs.core.windows.net"
+		},
+		"MoviesGitHub_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/djpmsft/adf-ready-demo/master/moviesDB.csv"
+		},
+		"TumblingWindowTrigger_properties_pipeline_parameters_filename": {
+			"value": "copyfromsql_@{formatDateTime(trigger().outputs.windowStartTime, 'yyyy-MM-dd')}"
 		},
 		"containerUri": {
 			"value": ""
