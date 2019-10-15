@@ -1,0 +1,24 @@
+{
+	"name": "movieDataFlowETL",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ADLSGen2Dataset",
+						"type": "DatasetReference"
+					},
+					"name": "MoviesADLS"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "Select1"
+				}
+			],
+			"script": "\n\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviesADLS\nMoviesADLS select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1"
+		}
+	}
+}
