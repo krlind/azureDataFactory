@@ -5,10 +5,6 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "MoviesS3",
-						"type": "DatasetReference"
-					},
 					"name": "MoviesADLS"
 				}
 			],

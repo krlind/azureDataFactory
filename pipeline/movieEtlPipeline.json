@@ -46,8 +46,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"name": "movie",
-									"type": "String"
+									"type": "String",
+									"ordinal": 1
 								}
 							},
 							{
@@ -56,8 +56,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"name": "title",
-									"type": "String"
+									"type": "String",
+									"ordinal": 2
 								}
 							},
 							{
@@ -66,8 +66,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"name": "genres",
-									"type": "String"
+									"type": "String",
+									"ordinal": 3
 								}
 							},
 							{
@@ -76,8 +76,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"name": "year",
-									"type": "String"
+									"type": "String",
+									"ordinal": 4
 								}
 							},
 							{
@@ -86,8 +86,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"name": "Rating",
-									"type": "String"
+									"type": "String",
+									"ordinal": 5
 								}
 							},
 							{
@@ -96,8 +96,8 @@
 									"type": "String"
 								},
 								"sink": {
-									"name": "Rotton Tomato",
-									"type": "String"
+									"type": "String",
+									"ordinal": 6
 								}
 							}
 						]
@@ -111,7 +111,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "MoviesS3",
+						"referenceName": "movieS3",
 						"type": "DatasetReference"
 					}
 				]
