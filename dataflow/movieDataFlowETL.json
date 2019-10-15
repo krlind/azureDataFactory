@@ -18,7 +18,7 @@
 					"name": "Select1"
 				}
 			],
-			"script": "\n\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviesADLS\nMoviesADLS select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1"
+			"script": "\n\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviesADLS\nMoviesADLS select(skipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> Select1"
 		}
 	}
 }
