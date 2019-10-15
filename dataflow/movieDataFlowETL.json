@@ -14,7 +14,11 @@
 			],
 			"sinks": [
 				{
-					"name": "sink1"
+					"dataset": {
+						"referenceName": "AzureSqlDWTable2",
+						"type": "DatasetReference"
+					},
+					"name": "SQLSink"
 				}
 			],
 			"transformations": [
@@ -34,7 +38,7 @@
 					"name": "AggregateRatings"
 				}
 			],
-			"script": "\n\nsource(output(\n\t\tmovie as string,\n\t\ttitle as string,\n\t\tgenres as string,\n\t\tyear as string,\n\t\tRating as string,\n\t\t{Rotton Tomato} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviesADLS\nMoviesADLS select(mapColumn(\n\t\tmovie,\n\t\ttitle,\n\t\tgenres,\n\t\tyear,\n\t\tRating,\n\t\t{Rotton Tomato}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 filter(toInteger(year) > 1950) ~> YearFilter\nYearFilter derive(DerivePrimaryGenre = iif(locate('|', genres) > 1, left(genres, locate('|', genres ) -1 ), genres)) ~> DerivePrimaryGenre\nDerivePrimaryGenre window(over(DerivePrimaryGenre,\n\t\tyear),\n\tdesc({Rotton Tomato}, true),\n\tRatingRank = rank()) ~> RankMoviesByRatings\nRankMoviesByRatings aggregate(groupBy(DerivePrimaryGenre,\n\t\tyear),\n\tAvergaeRating = avg(toInteger({Rotton Tomato})),\n\t\tHighestRated = first(title),\n\t\tLowestRated = last(title),\n\t\tNumberOfMovies = count()) ~> AggregateRatings\nAggregateRatings sink() ~> sink1"
+			"script": "\n\nsource(output(\n\t\tmovie as string,\n\t\ttitle as string,\n\t\tgenres as string,\n\t\tyear as string,\n\t\tRating as string,\n\t\t{Rotton Tomato} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviesADLS\nMoviesADLS select(mapColumn(\n\t\tmovie,\n\t\ttitle,\n\t\tgenres,\n\t\tyear,\n\t\tRating,\n\t\t{Rotton Tomato}\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 filter(toInteger(year) > 1950) ~> YearFilter\nYearFilter derive(DerivePrimaryGenre = iif(locate('|', genres) > 1, left(genres, locate('|', genres ) -1 ), genres)) ~> DerivePrimaryGenre\nDerivePrimaryGenre window(over(DerivePrimaryGenre,\n\t\tyear),\n\tdesc({Rotton Tomato}, true),\n\tRatingRank = rank()) ~> RankMoviesByRatings\nRankMoviesByRatings aggregate(groupBy(DerivePrimaryGenre,\n\t\tyear),\n\tAvergaeRating = avg(toInteger({Rotton Tomato})),\n\t\tHighestRated = first(title),\n\t\tLowestRated = last(title),\n\t\tNumberOfMovies = count()) ~> AggregateRatings\nAggregateRatings sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tformat: 'table',\n\tstaged: true,\n\tkeys:['DerivePrimaryGenre','year']) ~> SQLSink"
 		}
 	}
 }
