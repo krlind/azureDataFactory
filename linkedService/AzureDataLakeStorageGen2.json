@@ -1,0 +1,12 @@
+{
+	"name": "AzureDataLakeStorageGen2",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Kristian create this",
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://adlsg2storppq2q44l4ewls.dfs.core.windows.net"
+		}
+	}
+}
