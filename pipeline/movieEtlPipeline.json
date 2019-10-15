@@ -139,12 +139,6 @@
 					"dataflow": {
 						"referenceName": "movieDataFlowETL",
 						"type": "DataFlowReference"
-					},
-					"staging": {
-						"linkedService": {
-							"referenceName": "AzureDataLakeStorageGen2",
-							"type": "LinkedServiceReference"
-						}
 					}
 				}
 			}
